@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ZenithCart | Secure Gateway</title>
+    <script>
+        // Initialize theme before parsing page to prevent layout flash
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "on-tertiary": "#ffffff",
+              "secondary-container": "var(--color-secondary-container)",
+              "inverse-primary": "#bec6e0",
+              "tertiary-container": "#00201c",
+              "surface-container-high": "var(--color-surface-container-high)",
+              "secondary-fixed": "#e1e0ff",
+              "secondary": "var(--color-secondary)",
+              "outline": "#76777d",
+              "on-tertiary-fixed": "#00201c",
+              "inverse-surface": "#2d3133",
+              "tertiary": "#000000",
+              "surface-bright": "var(--color-surface-bright)",
+              "on-primary-container": "#7c839b",
+              "on-error-container": "var(--color-on-error-container)",
+              "on-background": "var(--color-on-background)",
+              "error-container": "var(--color-error-container)",
+              "background": "var(--color-background)",
+              "on-secondary-fixed-variant": "#2f2ebe",
+              "on-surface-variant": "var(--color-on-surface-variant)",
+              "on-secondary-container": "#fffbff",
+              "surface-container-lowest": "var(--color-surface-container-lowest)",
+              "on-tertiary-container": "#009485",
+              "outline-variant": "var(--color-outline-variant)",
+              "surface-variant": "#e0e3e5",
+              "surface-dim": "#d8dadc",
+              "primary-fixed-dim": "#bec6e0",
+              "primary-fixed": "#dae2fd",
+              "inverse-on-surface": "#eff1f3",
+              "tertiary-fixed": "#71f8e4",
+              "surface-container-low": "var(--color-surface-container-low)",
+              "surface-container": "var(--color-surface-container)",
+              "surface": "var(--color-surface)",
+              "secondary-fixed-dim": "#c0c1ff",
+              "on-secondary": "#ffffff",
+              "on-primary-fixed-variant": "#3f465c",
+              "tertiary-fixed-dim": "#4fdbc8",
+              "on-tertiary-fixed-variant": "#005048",
+              "on-secondary-fixed": "#07006c",
+              "on-primary-fixed": "#131b2e",
+              "primary-container": "#131b2e",
+              "surface-tint": "#565e74",
+              "surface-container-highest": "#e0e3e5",
+              "error": "var(--color-error)",
+              "on-surface": "var(--color-on-surface)",
+              "on-error": "#ffffff",
+              "on-primary": "#ffffff",
+              "primary": "var(--color-primary)"
+            },
+            "borderRadius": {
+              "DEFAULT": "0.125rem",
+              "lg": "0.25rem",
+              "xl": "0.5rem",
+              "full": "0.75rem"
+            },
+            "spacing": {
+              "container-max": "1280px",
+              "margin-desktop": "40px",
+              "base": "8px",
+              "gutter": "24px",
+              "margin-mobile": "16px"
+            },
+            "fontFamily": {
+              "headline-md": ["Hanken Grotesk"],
+              "headline-lg": ["Hanken Grotesk"],
+              "display": ["Hanken Grotesk"],
+              "label-md": ["Hanken Grotesk"],
+              "body-lg": ["Hanken Grotesk"],
+              "headline-lg-mobile": ["Hanken Grotesk"],
+              "body-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+              "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+              "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+              "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+              "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+              "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+              "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+              "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+        :root {
+            --color-background: #f7f9fb;
+            --color-surface: #f7f9fb;
+            --color-surface-bright: #f7f9fb;
+            --color-primary: #0f172a;
+            --color-on-surface: #191c1e;
+            --color-on-background: #191c1e;
+            --color-surface-container-lowest: #ffffff;
+            --color-surface-container-low: #f2f4f6;
+            --color-surface-container: #eceef0;
+            --color-surface-container-high: #e6e8ea;
+            --color-surface-container-highest: #e0e3e5;
+            --color-outline-variant: #c6c6cd;
+            --color-on-surface-variant: #45464d;
+            --color-primary-container: #0f172a;
+            --color-secondary: #4648d4;
+            --color-secondary-container: #6063ee;
+            --color-on-secondary: #ffffff;
+            --color-error: #ba1a1a;
+            --color-error-container: #ffdad6;
+            --color-on-error-container: #93000a;
+        }
+        
+        html.dark {
+            --color-background: #090d16;
+            --color-surface: #090d16;
+            --color-surface-bright: #090d16;
+            --color-primary: #f8fafc;
+            --color-on-surface: #cbd5e1;
+            --color-on-background: #cbd5e1;
+            --color-surface-container-lowest: #0e1626;
+            --color-surface-container-low: #131c33;
+            --color-surface-container: #1e293b;
+            --color-surface-container-high: #334155;
+            --color-surface-container-highest: #475569;
+            --color-outline-variant: #334155;
+            --color-on-surface-variant: #94a3b8;
+            --color-primary-container: #1e293b;
+            --color-secondary: #6366f1;
+            --color-secondary-container: #4f46e5;
+            --color-on-secondary: #ffffff;
+            --color-error: #f87171;
+            --color-error-container: #7f1d1d;
+            --color-on-error-container: #fca5a5;
+        }
+        
+        body {
+            font-family: 'Hanken Grotesk', sans-serif;
+            background-color: var(--color-background);
+        }
+        
+        .dark input, 
+        .dark select, 
+        .dark textarea {
+            background-color: var(--color-surface-container-low) !important;
+            color: var(--color-on-surface) !important;
+            border-color: var(--color-outline-variant) !important;
+        }
+        .dark input::placeholder {
+            color: var(--color-on-surface-variant) !important;
+            opacity: 0.5;
+        }
+        
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .form-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="antialiased text-on-surface overflow-hidden">
+    
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="fixed top-4 right-4 z-50 max-w-sm">
+          {% for category, message in messages %}
+            <div class="p-4 mb-3 text-sm rounded-sm flex items-center justify-between shadow-xl {% if category == 'error' %}bg-error-container text-on-error-container border border-error/20{% else %}bg-secondary/10 text-secondary border border-secondary/20{% endif %}">
+              <span>{{ message }}</span>
+              <button onclick="this.parentElement.remove()" class="material-symbols-outlined ml-4 text-[16px]">close</button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <main class="min-h-screen w-full flex overflow-hidden">
+        
+        <!-- Technical Side (Visual Anchor) -->
+        <section class="hidden lg:flex lg:w-1/2 relative bg-[#0f172a] items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 opacity-40 mix-blend-overlay">
+                <div class="w-full h-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAUuZZDNK26l1d93NUIO6lQgPbxUXjsEqdAxSrHq7S_s8aUflxfWL0JC9IR5rniAPrgPsCXmU2TR6ekkCVWzMyv2DbwU5Ri_npFUBuzWzZNqutQcGuaglLaXSuMJDraTAKldXTHJovYE7G8TsPlLHjn8y-JY3GfNGgqcQ9oagBmkohZ3CkpEZw9v-K_MLJeB481MudmZ5-oZJFkp_EPG6xTooSO-1SG4zRAg94Ntcf0Chn3bdQvximvWfgHHUktwv7UPpUAFwKE3Ww')"></div>
+            </div>
+            
+            <div class="relative z-10 p-margin-desktop max-w-xl">
+                <div class="mb-12">
+                    <span class="inline-flex items-center px-3 py-1 bg-secondary/20 border border-secondary/30 rounded-full text-secondary-fixed font-label-md text-label-md mb-6">
+                        <span class="material-symbols-outlined mr-2 text-[18px]">verified_user</span>
+                        SYSTEM PROTOCOL V.2.4.0
+                    </span>
+                    <h1 class="font-display text-display text-white mb-6 leading-tight">Precision Commerce Infrastructure.</h1>
+                    <p class="font-body-lg text-body-lg text-primary-fixed-dim/80 mb-8 max-w-md">
+                        Experience the next evolution of transactional speed. Secure, high-velocity engine designed for the modern engineer.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-gutter border-t border-white/10 pt-10">
+                    <div>
+                        <div class="font-headline-md text-headline-md text-white">99.99%</div>
+                        <div class="font-label-md text-label-md text-primary-fixed-dim/60">SYSTEM UPTIME</div>
+                    </div>
+                    <div>
+                        <div class="font-headline-md text-headline-md text-white">128ms</div>
+                        <div class="font-label-md text-label-md text-primary-fixed-dim/60">P99 LATENCY</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="absolute bottom-[-100px] right-[-100px] w-[400px] h-[400px] border border-secondary/20 rounded-full blur-3xl"></div>
+        </section>
+        
+        <!-- Form Side -->
+        <section class="w-full lg:w-1/2 bg-surface-container-lowest flex flex-col justify-center items-center px-margin-mobile md:px-margin-desktop py-gutter relative">
+            <!-- Top Right Security Badge -->
+            <div class="absolute top-8 right-8 hidden sm:flex items-center space-x-2 px-4 py-2 bg-tertiary-container/5 rounded-full border border-on-tertiary-container/10">
+                <span class="material-symbols-outlined text-on-tertiary-container text-[18px]" style="font-variation-settings: 'FILL' 1;">lock</span>
+                <span class="font-label-md text-label-md text-on-tertiary-container uppercase tracking-widest">Secure SSL</span>
+            </div>
+            
+            <div class="w-full max-w-[440px]">
+                <!-- Brand Anchor -->
+                <div class="mb-10 text-center lg:text-left">
+                    <a href="{{ url_for('index') }}" class="font-display text-2xl font-extrabold text-primary mb-2 hover:text-secondary transition-colors block">ZenithCart</a>
+                    <p class="font-body-md text-body-md text-on-surface-variant">Access your technical control panel.</p>
+                </div>
+                
+                <!-- Forms Container -->
+                <div class="form-transition" id="auth-container">
+                    
+                    <!-- Login Form -->
+                    <form action="{{ url_for('login_gate') }}" method="POST" class="space-y-6" id="login-section">
+                        <div class="space-y-4">
+                            <div class="group">
+                                <label class="block font-label-md text-label-md text-on-surface-variant mb-1.5 transition-colors group-focus-within:text-secondary" for="email">Work Email Address</label>
+                                <input required class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-body-md focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/10 transition-all placeholder:text-outline/40" id="email" name="email" placeholder="engineer@zenith.tech" type="email"/>
+                            </div>
+                            <div class="group">
+                                <div class="flex justify-between items-center mb-1.5">
+                                    <label class="block font-label-md text-label-md text-on-surface-variant transition-colors group-focus-within:text-secondary" for="password">Access Key</label>
+                                </div>
+                                <div class="relative">
+                                    <input required class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-body-md focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/10 transition-all placeholder:text-outline/40" id="password" name="password" placeholder="••••••••••••" type="password"/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="w-full py-4 bg-secondary text-white font-label-md text-label-md rounded-lg hover:bg-secondary/90 transition-all active:scale-[0.98] shadow-lg shadow-secondary/20 flex items-center justify-center space-x-2">
+                            <span>Initialize Session</span>
+                            <span class="material-symbols-outlined text-[18px]">bolt</span>
+                        </button>
+                    </form>
+                    
+                    <!-- Register Form (Hidden by default) -->
+                    <form action="{{ url_for('login_gate') }}" method="POST" class="hidden space-y-6" id="register-section">
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="group">
+                                    <label class="block font-label-md text-label-md text-on-surface-variant mb-1.5 transition-colors group-focus-within:text-secondary">First Name</label>
+                                    <input required class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-body-md focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/10 transition-all placeholder:text-outline/40" name="first_name" placeholder="Linus" type="text"/>
+                                </div>
+                                <div class="group">
+                                    <label class="block font-label-md text-label-md text-on-surface-variant mb-1.5 transition-colors group-focus-within:text-secondary">Last Name</label>
+                                    <input required class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-body-md focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/10 transition-all placeholder:text-outline/40" name="last_name" placeholder="Torvalds" type="text"/>
+                                </div>
+                            </div>
+                            <div class="group">
+                                <label class="block font-label-md text-label-md text-on-surface-variant mb-1.5 transition-colors group-focus-within:text-secondary">Work Email</label>
+                                <input required class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-body-md focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/10 transition-all placeholder:text-outline/40" name="email" placeholder="linus@linux.org" type="email"/>
+                            </div>
+                            <div class="group">
+                                <label class="block font-label-md text-label-md text-on-surface-variant mb-1.5 transition-colors group-focus-within:text-secondary">Create Access Key</label>
+                                <input required minlength="6" class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-body-md focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/10 transition-all placeholder:text-outline/40" name="password" placeholder="Min. 6 characters" type="password"/>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="w-full py-4 bg-secondary text-white font-label-md text-label-md rounded-lg hover:bg-secondary/90 transition-all active:scale-[0.98] shadow-lg shadow-secondary/20 flex items-center justify-center space-x-2">
+                            <span>Register Identity</span>
+                            <span class="material-symbols-outlined text-[18px]">person_add</span>
+                        </button>
+                    </form>
+                    
+                </div>
+                
+                <!-- Toggle Auth State -->
+                <div class="mt-8 text-center">
+                    <p class="font-body-md text-body-md text-on-surface-variant">
+                        <span id="toggle-text">Need to establish credentials?</span>
+                        <button class="ml-1 text-secondary font-bold hover:underline transition-all" id="toggle-auth">
+                            <span id="toggle-btn-label">Create Account</span>
+                        </button>
+                    </p>
+                </div>
+                
+                <!-- Footer Links -->
+                <div class="mt-16 flex justify-center space-x-6">
+                    <a class="font-label-md text-label-md text-on-surface-variant/60 hover:text-secondary transition-colors" href="#">Privacy</a>
+                    <a class="font-label-md text-label-md text-on-surface-variant/60 hover:text-secondary transition-colors" href="#">Security</a>
+                    <a class="font-label-md text-label-md text-on-surface-variant/60 hover:text-secondary transition-colors" href="#">Help</a>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    
+    <script>
+        const loginSection = document.getElementById('login-section');
+        const registerSection = document.getElementById('register-section');
+        const toggleAuthBtn = document.getElementById('toggle-auth');
+        const toggleText = document.getElementById('toggle-text');
+        const toggleBtnLabel = document.getElementById('toggle-btn-label');
+        const authContainer = document.getElementById('auth-container');
+
+        let isLogin = true;
+
+        toggleAuthBtn.addEventListener('click', () => {
+            isLogin = !isLogin;
+            
+            // Exit animation
+            authContainer.style.opacity = '0';
+            authContainer.style.transform = 'translateY(10px)';
+
+            setTimeout(() => {
+                if (isLogin) {
+                    loginSection.classList.remove('hidden');
+                    registerSection.classList.add('hidden');
+                    toggleText.textContent = "Need to establish credentials?";
+                    toggleBtnLabel.textContent = "Create Account";
+                } else {
+                    loginSection.classList.add('hidden');
+                    registerSection.classList.remove('hidden');
+                    toggleText.textContent = "Already have an account?";
+                    toggleBtnLabel.textContent = "Sign In Instead";
+                }
+                
+                // Entry animation
+                authContainer.style.opacity = '1';
+                authContainer.style.transform = 'translateY(0)';
+            }, 300);
+        });
+
+        // Button click interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => {
+                btn.style.transform = 'scale(0.98)';
+            });
+            btn.addEventListener('mouseup', () => {
+                btn.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

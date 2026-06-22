@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+
+{% block title %}ZenithCart | Browse Technical Collection{% endblock %}
+
+{% block content %}
+<div class="px-margin-desktop max-w-container-max mx-auto py-12">
+    <div class="flex flex-col lg:flex-row gap-gutter">
+        
+        <!-- Sidebar Filters -->
+        <aside class="w-full lg:w-64 flex-shrink-0">
+            <div class="glass-card p-6 rounded-sm space-y-8 sticky top-24">
+                <div>
+                    <h3 class="font-label-md text-primary uppercase tracking-wider text-xs font-bold mb-4">Categories</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="{{ url_for('catalog', search=search_query, sort=sort_by) }}" class="flex items-center justify-between text-sm {% if not selected_category %}text-secondary font-bold{% else %}text-on-surface-variant hover:text-secondary{% endif %}">
+                                <span>All Products</span>
+                            </a>
+                        </li>
+                        {% for cat in categories %}
+                        <li>
+                            <a href="{{ url_for('catalog', category=cat, search=search_query, sort=sort_by) }}" class="flex items-center justify-between text-sm {% if selected_category == cat %}text-secondary font-bold{% else %}text-on-surface-variant hover:text-secondary{% endif %}">
+                                <span class="capitalize">{{ cat | replace('_', ' ') }}</span>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-label-md text-primary uppercase tracking-wider text-xs font-bold mb-4">Sort By</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li>
+                            <a href="{{ url_for('catalog', category=selected_category, search=search_query, sort='price_asc') }}" class="flex items-center gap-2 {% if sort_by == 'price_asc' %}text-secondary font-bold{% else %}text-on-surface-variant hover:text-secondary{% endif %}">
+                                <span class="material-symbols-outlined text-[18px]">arrow_upward</span> Price: Low to High
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('catalog', category=selected_category, search=search_query, sort='price_desc') }}" class="flex items-center gap-2 {% if sort_by == 'price_desc' %}text-secondary font-bold{% else %}text-on-surface-variant hover:text-secondary{% endif %}">
+                                <span class="material-symbols-outlined text-[18px]">arrow_downward</span> Price: High to Low
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('catalog', category=selected_category, search=search_query, sort='rating') }}" class="flex items-center gap-2 {% if sort_by == 'rating' %}text-secondary font-bold{% else %}text-on-surface-variant hover:text-secondary{% endif %}">
+                                <span class="material-symbols-outlined text-[18px]">star</span> Customer Rating
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Catalog Area -->
+        <div class="flex-1">
+            <!-- Catalog Header -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+                <div>
+                    <h1 class="font-display text-[32px] text-primary font-bold">
+                        {% if selected_category %}
+                            <span class="capitalize">{{ selected_category | replace('_', ' ') }}</span> Collection
+                        {% else %}
+                            Technical Collection
+                        {% endif %}
+                    </h1>
+                    <p class="text-on-surface-variant text-sm mt-1">Showing {{ products | length }} precision-engineered devices.</p>
+                </div>
+                
+                <!-- Display active search indicators -->
+                {% if search_query %}
+                <div class="bg-secondary/10 border border-secondary/20 text-secondary text-xs px-3 py-1.5 rounded-full flex items-center gap-2">
+                    <span>Search: "{{ search_query }}"</span>
+                    <a href="{{ url_for('catalog', category=selected_category, sort=sort_by) }}" class="material-symbols-outlined text-[14px]">close</a>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Products Grid -->
+            {% if products %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for product in products %}
+                <div class="group flex flex-col glass-card p-4 rounded-sm hover:shadow-lg transition-all duration-300 relative cursor-pointer" onclick="window.location.href='{{ url_for('product_details', product_id=product.id) }}'">
+                    
+                    <!-- Wishlist Toggle -->
+                    <button onclick="event.stopPropagation(); saveToWishlist({{ product.id }});" class="absolute top-6 right-6 z-10 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-on-surface-variant hover:text-error transition-colors shadow-sm">
+                        <span class="material-symbols-outlined text-[20px]">favorite</span>
+                    </button>
+                    
+                    <!-- Product Image -->
+                    <div class="relative aspect-square overflow-hidden bg-surface-container-low mb-6 rounded-sm">
+                        <img alt="{{ product.name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="{{ product.image_url }}"/>
+                        <button onclick="event.stopPropagation(); addToCart({{ product.id }});" class="absolute bottom-4 right-4 w-12 h-12 bg-secondary text-white flex items-center justify-center rounded-sm opacity-0 group-hover:opacity-100 transition-opacity translate-y-4 group-hover:translate-y-0 duration-300 shadow-xl">
+                            <span class="material-symbols-outlined">add_shopping_cart</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Product Data -->
+                    <div class="flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[11px] text-on-surface-variant font-mono uppercase tracking-tighter">{{ product.sku }}</span>
+                            <span class="text-secondary font-bold font-display text-lg">₹{{ "{:,.2f}".format(product.price) }}</span>
+                        </div>
+                        <h3 class="font-headline-md text-primary text-lg group-hover:text-secondary transition-colors truncate mb-2">{{ product.name }}</h3>
+                        <p class="text-on-surface-variant text-xs line-clamp-2 leading-relaxed mb-4">{{ product.description }}</p>
+                        
+                        <!-- Rating & Inventory -->
+                        <div class="mt-auto pt-4 border-t border-outline-variant/30 flex items-center justify-between text-xs text-on-surface-variant">
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-secondary text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="font-bold text-on-surface">{{ product.rating }}</span>
+                            </div>
+                            <div>
+                                {% if product.stock > 5 %}
+                                    <span class="text-secondary font-medium">In Stock ({{ product.stock }})</span>
+                                {% elif product.stock > 0 %}
+                                    <span class="text-error font-medium">Only {{ product.stock }} left</span>
+                                {% else %}
+                                    <span class="text-on-surface-variant/40 font-medium">Out of Stock</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="glass-card p-12 text-center rounded-sm max-w-xl mx-auto">
+                <span class="material-symbols-outlined text-on-surface-variant/30 text-[64px] mb-4">search_off</span>
+                <h3 class="font-headline-md text-primary mb-2">No Products Found</h3>
+                <p class="text-on-surface-variant text-sm mb-6">No items match your selected filters. Try clearing search queries or changing categories.</p>
+                <a href="{{ url_for('catalog') }}" class="bg-secondary text-white px-6 py-3 font-label-md rounded-sm hover:bg-secondary-container transition-all">Clear Filters</a>
+            </div>
+            {% endif %}
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function addToCart(productId) {
+        fetch(`/cart/add/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+        .then(response => {
+            if (response.status === 401 || response.redirected) {
+                window.location.href = "{{ url_for('login_gate') }}";
+                return;
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.status === 'success') {
+                alert(data.message);
+                window.location.reload();
+            } else if (data && data.status === 'error') {
+                alert(data.message);
+            }
+        })
+        .catch(err => {
+            console.error('Error adding to cart:', err);
+        });
+    }
+
+    function saveToWishlist(productId) {
+        fetch(`/wishlist/add/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+        .then(response => {
+            if (response.status === 401 || response.redirected) {
+                window.location.href = "{{ url_for('login_gate') }}";
+                return;
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.status === 'success') {
+                alert(data.message);
+                window.location.reload();
+            }
+        })
+        .catch(err => {
+            console.error('Error saving to wishlist:', err);
+        });
+    }
+</script>
+{% endblock %}

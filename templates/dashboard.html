@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}ZenithCart | Control Dashboard{% endblock %}
+
+{% block content %}
+<div class="px-margin-desktop max-w-container-max mx-auto py-12">
+    <!-- Header Welcome -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-outline-variant/30 pb-6 mb-10 gap-4">
+        <div>
+            <span class="text-xs text-on-surface-variant font-mono uppercase tracking-wider">Account Portal</span>
+            <h1 class="font-display text-[32px] text-primary font-bold mt-1">Welcome back, {{ user.first_name }}</h1>
+        </div>
+        <div class="flex items-center gap-2 px-4 py-2 bg-tertiary-container/5 rounded-full border border-on-tertiary-container/10">
+            <span class="material-symbols-outlined text-on-tertiary-container text-[18px]">verified_user</span>
+            <span class="font-label-md text-xs text-on-tertiary-container uppercase tracking-widest">Active Shell</span>
+        </div>
+    </div>
+    
+    <!-- Profile Statistics Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-12">
+        <!-- Card 1: Orders -->
+        <div class="glass-card p-6 rounded-sm bg-white flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+                <span class="material-symbols-outlined text-[24px]">receipt</span>
+            </div>
+            <div>
+                <p class="text-xs text-on-surface-variant font-label-md uppercase tracking-wider">Total Orders</p>
+                <p class="text-2xl font-display font-bold text-primary">{{ user.orders | length }} Transactions</p>
+            </div>
+        </div>
+        
+        <!-- Card 2: Wishlist -->
+        <div class="glass-card p-6 rounded-sm bg-white flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+                <span class="material-symbols-outlined text-[24px]">favorite</span>
+            </div>
+            <div>
+                <p class="text-xs text-on-surface-variant font-label-md uppercase tracking-wider">Wishlist Items</p>
+                <p class="text-2xl font-display font-bold text-primary">{{ wishlist_count }} Saved Items</p>
+            </div>
+        </div>
+        
+        <!-- Card 3: Session Duration -->
+        <div class="glass-card p-6 rounded-sm bg-white flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+                <span class="material-symbols-outlined text-[24px]">schedule</span>
+            </div>
+            <div>
+                <p class="text-xs text-on-surface-variant font-label-md uppercase tracking-wider">Session Status</p>
+                <p class="text-2xl font-display font-bold text-primary">Active</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter items-start">
+        <!-- Recent Orders (Left 2 columns) -->
+        <div class="lg:col-span-2 space-y-6">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="font-display text-2xl text-primary font-bold">Recent Orders</h2>
+                {% if user.orders | length > 3 %}
+                <a href="{{ url_for('orders') }}" class="text-xs text-secondary font-bold hover:underline flex items-center gap-1 uppercase tracking-wider font-label-md">
+                    View Archive <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </a>
+                {% endif %}
+            </div>
+            
+            {% if recent_orders %}
+            <div class="glass-card rounded-sm bg-white overflow-hidden">
+                <ul class="divide-y divide-outline-variant/20">
+                    {% for order in recent_orders %}
+                    <li class="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <span class="text-[10px] text-on-surface-variant font-mono uppercase tracking-tighter">ORDER_ID</span>
+                            <h4 class="font-bold text-primary font-mono text-base mt-0.5">#{{ order.order_number }}</h4>
+                            <p class="text-xs text-on-surface-variant mt-1">Processed on {{ order.created_at.strftime('%Y-%m-%d') }}</p>
+                        </div>
+                        
+                        <div class="flex items-center gap-6">
+                            <div class="text-right">
+                                <span class="text-xs text-on-surface-variant font-medium block">Total Paid</span>
+                                <span class="font-bold text-primary">₹{{ "{:,.2f}".format(order.total_price) }}</span>
+                            </div>
+                            
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold
+                                {% if order.status == 'Processing' %}
+                                    bg-secondary/10 text-secondary
+                                {% elif order.status == 'Delivered' %}
+                                    bg-tertiary-fixed/30 text-on-tertiary-fixed-variant
+                                {% else %}
+                                    bg-surface-container-high text-on-surface-variant
+                                {% endif %}">
+                                {{ order.status }}
+                            </span>
+                            
+                            <a href="{{ url_for('order_details', order_number=order.order_number) }}" class="material-symbols-outlined text-secondary hover:text-secondary-container transition-colors" title="View Details">
+                                receipt
+                            </a>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% else %}
+            <div class="glass-card p-8 text-center rounded-sm bg-white">
+                <p class="text-on-surface-variant text-sm mb-4">No transactions found in this account.</p>
+                <a href="{{ url_for('catalog') }}" class="text-xs text-secondary font-bold hover:underline">BROWSE PRODUCTS NOW</a>
+            </div>
+            {% endif %}
+        </div>
+        
+        <!-- Account Details (Right 1 column) -->
+        <div class="lg:col-span-1 space-y-6">
+            <h2 class="font-display text-2xl text-primary font-bold mb-2">Details</h2>
+            
+            <div class="glass-card p-6 rounded-sm bg-white space-y-4 text-sm">
+                <div>
+                    <span class="text-xs text-on-surface-variant font-label-md uppercase tracking-wider block">Email Address</span>
+                    <span class="font-semibold text-primary block mt-0.5">{{ user.email }}</span>
+                </div>
+                <div>
+                    <span class="text-xs text-on-surface-variant font-label-md uppercase tracking-wider block">Full Name</span>
+                    <span class="font-semibold text-primary block mt-0.5">{{ user.first_name }} {{ user.last_name }}</span>
+                </div>
+                <div>
+                    <span class="text-xs text-on-surface-variant font-label-md uppercase tracking-wider block">Account Created</span>
+                    <span class="font-semibold text-primary block mt-0.5">{{ user.created_at.strftime('%Y-%m-%d') }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

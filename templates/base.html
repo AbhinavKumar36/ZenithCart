@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>{% block title %}ZenithCart | Precision Digital Retail{% endblock %}</title>
+    <script>
+        // Initialize theme before parsing page to prevent layout flash
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "background": "var(--color-background)",
+              "secondary": "var(--color-secondary)",
+              "on-tertiary": "#ffffff",
+              "on-secondary-container": "#fffbff",
+              "primary-container": "var(--color-primary-container)",
+              "tertiary": "#000000",
+              "on-error-container": "var(--color-on-error-container)",
+              "surface-variant": "#e0e3e5",
+              "secondary-container": "var(--color-secondary-container)",
+              "on-tertiary-fixed-variant": "#005048",
+              "surface-container": "var(--color-surface-container)",
+              "on-primary": "#ffffff",
+              "on-tertiary-container": "#009485",
+              "on-surface": "var(--color-on-surface)",
+              "on-primary-fixed": "#0f172a",
+              "surface": "var(--color-surface)",
+              "on-background": "var(--color-on-background)",
+              "error": "var(--color-error)",
+              "on-primary-fixed-variant": "#3f465c",
+              "tertiary-fixed": "#71f8e4",
+              "inverse-surface": "#2d3133",
+              "surface-container-highest": "var(--color-surface-container-highest)",
+              "primary-fixed": "#dae2fd",
+              "on-surface-variant": "var(--color-on-surface-variant)",
+              "on-secondary": "var(--color-on-secondary)",
+              "on-secondary-fixed": "#07006c",
+              "secondary-fixed-dim": "#c0c1ff",
+              "secondary-fixed": "#e1e0ff",
+              "tertiary-fixed-dim": "#4fdbc8",
+              "surface-dim": "#d8dadc",
+              "primary": "var(--color-primary)",
+              "on-tertiary-fixed": "#00201c",
+              "surface-container-high": "var(--color-surface-container-high)",
+              "on-error": "#ffffff",
+              "outline-variant": "var(--color-outline-variant)",
+              "surface-container-lowest": "var(--color-surface-container-lowest)",
+              "surface-container-low": "var(--color-surface-container-low)",
+              "surface-bright": "var(--color-surface-bright)",
+              "on-secondary-fixed-variant": "#2f2ebe",
+              "primary-fixed-dim": "#bec6e0",
+              "inverse-primary": "#bec6e0",
+              "inverse-on-surface": "#eff1f3",
+              "outline": "#76777d",
+              "error-container": "var(--color-error-container)",
+              "tertiary-container": "#00201c",
+              "on-primary-container": "#7c839b",
+              "surface-tint": "#565e74"
+            },
+            "borderRadius": {
+              "DEFAULT": "0.125rem",
+              "lg": "0.25rem",
+              "xl": "0.5rem",
+              "full": "0.75rem"
+            },
+            "spacing": {
+              "margin-mobile": "16px",
+              "gutter": "24px",
+              "margin-desktop": "40px",
+              "container-max": "1280px",
+              "base": "8px"
+            },
+            "fontFamily": {
+              "headline-lg": ["Hanken Grotesk"],
+              "body-md": ["Hanken Grotesk"],
+              "body-lg": ["Hanken Grotesk"],
+              "display": ["Hanken Grotesk"],
+              "label-md": ["Hanken Grotesk"],
+              "headline-md": ["Hanken Grotesk"],
+              "headline-lg-mobile": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+              "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+              "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+              "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+              "display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+              "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+              "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+              "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+        :root {
+            --color-background: #f7f9fb;
+            --color-surface: #f7f9fb;
+            --color-surface-bright: #f7f9fb;
+            --color-primary: #0f172a;
+            --color-on-surface: #191c1e;
+            --color-on-background: #191c1e;
+            --color-surface-container-lowest: #ffffff;
+            --color-surface-container-low: #f2f4f6;
+            --color-surface-container: #eceef0;
+            --color-surface-container-high: #e6e8ea;
+            --color-surface-container-highest: #e0e3e5;
+            --color-outline-variant: #c6c6cd;
+            --color-on-surface-variant: #45464d;
+            --color-primary-container: #0f172a;
+            --color-secondary: #4648d4;
+            --color-secondary-container: #6063ee;
+            --color-on-secondary: #ffffff;
+            --color-error: #ba1a1a;
+            --color-error-container: #ffdad6;
+            --color-on-error-container: #93000a;
+            
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(226, 232, 240, 0.8);
+        }
+        
+        html.dark {
+            --color-background: #090d16;
+            --color-surface: #090d16;
+            --color-surface-bright: #090d16;
+            --color-primary: #f8fafc;
+            --color-on-surface: #cbd5e1;
+            --color-on-background: #cbd5e1;
+            --color-surface-container-lowest: #0e1626;
+            --color-surface-container-low: #131c33;
+            --color-surface-container: #1e293b;
+            --color-surface-container-high: #334155;
+            --color-surface-container-highest: #475569;
+            --color-outline-variant: #334155;
+            --color-on-surface-variant: #94a3b8;
+            --color-primary-container: #1e293b;
+            --color-secondary: #6366f1;
+            --color-secondary-container: #4f46e5;
+            --color-on-secondary: #ffffff;
+            --color-error: #f87171;
+            --color-error-container: #7f1d1d;
+            --color-on-error-container: #fca5a5;
+            
+            --glass-bg: rgba(14, 22, 38, 0.7);
+            --glass-border: rgba(51, 65, 85, 0.5);
+        }
+        
+        body { font-family: 'Hanken Grotesk', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .dark .glass-card.bg-white {
+            background-color: var(--color-surface-container-lowest) !important;
+        }
+        .dark section.bg-white {
+            background-color: var(--color-background) !important;
+        }
+        .dark .bg-white\/50 {
+            background-color: rgba(30, 41, 59, 0.5) !important;
+        }
+        
+        .dark input, 
+        .dark select, 
+        .dark textarea {
+            background-color: var(--color-surface-container-low) !important;
+            color: var(--color-on-surface) !important;
+            border-color: var(--color-outline-variant) !important;
+        }
+        .dark input::placeholder {
+            color: var(--color-on-surface-variant) !important;
+            opacity: 0.5;
+        }
+        
+        .dark img[alt="ZenithCart Logo"] {
+            filter: brightness(0) invert(1);
+        }
+        
+        #main-header.header-scrolled {
+            background-color: rgba(247, 249, 251, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        .dark #main-header.header-scrolled {
+            background-color: rgba(9, 13, 22, 0.95);
+        }
+        
+        .cloud-shadow {
+            box-shadow: 0 10px 32px -4px rgba(15, 23, 42, 0.08);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at 70% 50%, rgba(70, 72, 212, 0.15) 0%, transparent 70%);
+        }
+        .form-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen selection:bg-secondary-fixed-dim selection:text-on-secondary-fixed">
+    
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-surface border-b border-outline-variant transition-all duration-300" id="main-header">
+        <nav class="flex justify-between items-center w-full px-margin-desktop max-w-container-max mx-auto h-20">
+            <div class="flex items-center gap-base">
+                <a href="{{ url_for('index') }}">
+                    <img alt="ZenithCart Logo" class="h-9 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLufguzk0Yu1Jfoq3HXqW4-Bs-hf1PiBpR9IzI3f7hQaLDtYvheCbD9-jzKmQErjYLKHlSL3ExCQgBZafP-3k_18nsogMVB_ZGsH-xb-U6txAB-sLoeZg1xjKMuCKkOywmS-BB4pGApY40cgVEZJhzO8ldEKxLO9iHOzfNc7c90VbO6B3FusVQXIE7kBh7dpZ-WqNA003tmDkPZVHWibUGqMhiK9BYWoZ1GQwxDqXshS9fvVnYJ4RY571A"/>
+                </a>
+            </div>
+            
+            <!-- Global Search Bar -->
+            <div class="hidden md:flex flex-1 max-w-md mx-12">
+                <form action="{{ url_for('catalog') }}" method="GET" class="relative w-full">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span>
+                    <input name="search" value="{{ request.args.get('search', '') }}" class="w-full pl-10 pr-4 py-2.5 bg-surface-container-low border border-outline-variant rounded-sm focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-all font-body-md text-sm" placeholder="Search the technical collection..." type="text"/>
+                </form>
+            </div>
+            
+            <div class="flex items-center gap-gutter">
+                <div class="hidden md:flex items-center gap-8">
+                    <a class="font-body-md {% if selected_category == 'electronics' %}text-secondary font-bold border-b-2 border-secondary pb-1{% else %}text-on-surface-variant hover:text-secondary transition-colors{% endif %}" href="{{ url_for('catalog', category='electronics') }}">Electronics</a>
+                    <a class="font-body-md {% if selected_category == 'lifestyle' %}text-secondary font-bold border-b-2 border-secondary pb-1{% else %}text-on-surface-variant hover:text-secondary transition-colors{% endif %}" href="{{ url_for('catalog', category='lifestyle') }}">Lifestyle</a>
+                    <a class="font-body-md {% if selected_category == 'home' %}text-secondary font-bold border-b-2 border-secondary pb-1{% else %}text-on-surface-variant hover:text-secondary transition-colors{% endif %}" href="{{ url_for('catalog', category='home') }}">Home</a>
+                    <a class="font-body-md {% if selected_category == 'technical_apparel' %}text-secondary font-bold border-b-2 border-secondary pb-1{% else %}text-on-surface-variant hover:text-secondary transition-colors{% endif %}" href="{{ url_for('catalog', category='technical_apparel') }}">Apparel</a>
+                </div>
+                
+                <div class="flex items-center gap-5">
+                    <!-- Theme Toggle Button -->
+                    <button id="theme-toggle" class="material-symbols-outlined text-secondary scale-95 active:opacity-80 transition-transform hover:text-secondary-container cursor-pointer select-none" title="Toggle Theme">
+                        dark_mode
+                    </button>
+                    
+                    <!-- Wishlist Link -->
+                    <a href="{{ url_for('wishlist') }}" class="relative block material-symbols-outlined text-secondary scale-95 active:opacity-80 transition-transform">
+                        favorite
+                        {% if wishlist_count > 0 %}
+                            <span class="absolute -top-1.5 -right-1.5 bg-error text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center justify-center min-w-[16px] h-[16px]">{{ wishlist_count }}</span>
+                        {% endif %}
+                    </a>
+                    
+                    <!-- Dashboard / Account Link -->
+                    <a href="{{ url_for('dashboard') }}" class="material-symbols-outlined text-secondary scale-95 active:opacity-80 transition-transform">
+                        person
+                    </a>
+                    
+                    <!-- Cart Link -->
+                    <div class="relative">
+                        <a href="{{ url_for('cart') }}" class="block material-symbols-outlined text-secondary scale-95 active:opacity-80 transition-transform">
+                            shopping_cart
+                        </a>
+                        {% if cart_count > 0 %}
+                            <span class="absolute -top-1.5 -right-1.5 bg-secondary text-white text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center justify-center min-w-[16px] h-[16px]">{{ cart_count }}</span>
+                        {% endif %}
+                    </div>
+                    
+                    {% if current_user %}
+                        <a href="{{ url_for('logout') }}" class="material-symbols-outlined text-on-surface-variant hover:text-error transition-colors scale-95" title="Terminate Session">
+                            logout
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content wrapper with padding for Header -->
+    <main class="flex-grow pt-20">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="max-w-container-max mx-auto px-margin-desktop mt-4">
+              {% for category, message in messages %}
+                <div class="p-4 mb-4 text-sm rounded-sm flex items-center justify-between {% if category == 'error' %}bg-error-container text-on-error-container border border-error/20{% else %}bg-secondary/10 text-secondary border border-secondary/20{% endif %}">
+                  <span>{{ message }}</span>
+                  <button onclick="this.parentElement.remove()" class="material-symbols-outlined text-[16px]">close</button>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface-container-highest border-t border-outline-variant/30 mt-auto">
+        <div class="w-full py-16 px-margin-desktop max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-3 gap-gutter">
+            <div class="space-y-8">
+                <div class="flex items-center gap-base">
+                    <img alt="ZenithCart Logo" class="h-7 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLufguzk0Yu1Jfoq3HXqW4-Bs-hf1PiBpR9IzI3f7hQaLDtYvheCbD9-jzKmQErjYLKHlSL3ExCQgBZafP-3k_18nsogMVB_ZGsH-xb-U6txAB-sLoeZg1xjKMuCKkOywmS-BB4pGApY40cgVEZJhzO8ldEKxLO9iHOzfNc7c90VbO6B3FusVQXIE7kBh7dpZ-WqNA003tmDkPZVHWibUGqMhiK9BYWoZ1GQwxDqXshS9fvVnYJ4RY571A"/>
+                </div>
+                <p class="font-body-md text-on-surface-variant max-w-xs leading-relaxed">
+                    Building the future of digital commerce through technical precision, user-centric design, and high-performance engineering.
+                </p>
+                <div class="flex gap-6">
+                    <a class="material-symbols-outlined text-on-surface-variant hover:text-secondary transition-colors" href="#">public</a>
+                    <a class="material-symbols-outlined text-on-surface-variant hover:text-secondary transition-colors" href="#">terminal</a>
+                    <a class="material-symbols-outlined text-on-surface-variant hover:text-secondary transition-colors" href="#">hub</a>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-gutter">
+                <div>
+                    <h4 class="font-label-md text-primary mb-8 uppercase tracking-[0.15em] text-xs font-bold">Ecosystem</h4>
+                    <ul class="space-y-4">
+                        <li><a class="font-body-md text-on-surface-variant hover:underline decoration-secondary transition-opacity opacity-90 hover:opacity-100" href="{{ url_for('catalog', category='electronics') }}">Electronics</a></li>
+                        <li><a class="font-body-md text-on-surface-variant hover:underline decoration-secondary transition-opacity opacity-90 hover:opacity-100" href="{{ url_for('catalog', category='lifestyle') }}">Lifestyle</a></li>
+                        <li><a class="font-body-md text-on-surface-variant hover:underline decoration-secondary transition-opacity opacity-90 hover:opacity-100" href="{{ url_for('catalog', category='home') }}">Home</a></li>
+                        <li><a class="font-body-md text-on-surface-variant hover:underline decoration-secondary transition-opacity opacity-90 hover:opacity-100" href="{{ url_for('catalog', category='technical_apparel') }}">Apparel</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-label-md text-primary mb-8 uppercase tracking-[0.15em] text-xs font-bold">Resources</h4>
+                    <ul class="space-y-4">
+                        <li><a class="font-body-md text-on-surface-variant hover:underline decoration-secondary transition-opacity opacity-90 hover:opacity-100" href="#">Secure Payment</a></li>
+                        <li><a class="font-body-md text-on-surface-variant hover:underline decoration-secondary transition-opacity opacity-90 hover:opacity-100" href="#">24/7 Support</a></li>
+                        <li><a class="font-body-md text-on-surface-variant hover:underline decoration-secondary transition-opacity opacity-90 hover:opacity-100" href="#">Privacy Policy</a></li>
+                        <li><a class="font-body-md text-on-surface-variant hover:underline decoration-secondary transition-opacity opacity-90 hover:opacity-100" href="#">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="space-y-8">
+                <div>
+                    <h4 class="font-label-md text-primary mb-6 uppercase tracking-[0.15em] text-xs font-bold">Operational Status</h4>
+                    <div class="flex items-center gap-3 bg-white/50 p-4 rounded-sm border border-outline-variant/30 w-fit">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+                        </span>
+                        <span class="font-body-md text-on-surface font-medium text-sm">All systems operational</span>
+                    </div>
+                </div>
+                <div class="pt-8 border-t border-outline-variant">
+                    <p class="font-body-md text-on-surface-variant text-sm">© 2026 ZenithCart. <br/>Built with Precision &amp; High-Velocity Code.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme initialization and event handling
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        
+        function updateThemeToggleIcon() {
+            if (document.documentElement.classList.contains('dark')) {
+                themeToggleBtn.textContent = 'light_mode';
+            } else {
+                themeToggleBtn.textContent = 'dark_mode';
+            }
+        }
+        
+        updateThemeToggleIcon();
+        
+        themeToggleBtn.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            updateThemeToggleIcon();
+        });
+
+        // Scroll navigation effects
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('shadow-lg', 'header-scrolled', 'py-1');
+                header.classList.remove('bg-surface');
+                header.querySelector('nav').classList.remove('h-20');
+                header.querySelector('nav').classList.add('h-16');
+            } else {
+                header.classList.remove('shadow-lg', 'header-scrolled', 'py-1');
+                header.classList.add('bg-surface');
+                header.querySelector('nav').classList.add('h-20');
+                header.querySelector('nav').classList.remove('h-16');
+            }
+        });
+
+        // Button scale down interactions
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

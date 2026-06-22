@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}ZenithCart | Shopping Cart{% endblock %}
+
+{% block content %}
+<div class="px-margin-desktop max-w-container-max mx-auto py-12">
+    <h1 class="font-display text-[32px] text-primary font-bold mb-10">Your Cart</h1>
+    
+    {% if items %}
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter items-start">
+        
+        <!-- Cart Items List -->
+        <div class="lg:col-span-2 space-y-6">
+            <div class="glass-card rounded-sm bg-white overflow-hidden">
+                <ul class="divide-y divide-outline-variant/20">
+                    {% for item in items %}
+                    <li class="p-6 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                        <!-- Thumbnail -->
+                        <div class="w-20 h-20 bg-surface-container-low rounded-sm overflow-hidden flex-shrink-0">
+                            <img alt="{{ item.product.name }}" class="w-full h-full object-cover" src="{{ item.product.image_url }}"/>
+                        </div>
+                        
+                        <!-- Details -->
+                        <div class="flex-grow min-w-0">
+                            <span class="text-[10px] text-on-surface-variant font-mono uppercase tracking-tighter">{{ item.product.sku }}</span>
+                            <h3 class="font-headline-md text-base text-primary truncate hover:text-secondary transition-colors">
+                                <a href="{{ url_for('product_details', product_id=item.product.id) }}">{{ item.product.name }}</a>
+                            </h3>
+                            <p class="text-secondary font-bold text-sm mt-1">₹{{ "{:,.2f}".format(item.product.price) }}</p>
+                        </div>
+                        
+                        <!-- Quantity Manager -->
+                        <div class="flex items-center border border-outline-variant rounded-sm bg-surface-container-lowest flex-shrink-0">
+                            <button onclick="updateQuantity({{ item.id }}, -1)" class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors font-bold">-</button>
+                            <input id="qty-input-{{ item.id }}" type="number" value="{{ item.quantity }}" min="0" max="{{ item.product.stock }}" onchange="setQuantity({{ item.id }}, this.value)" class="w-10 text-center border-none bg-transparent focus:ring-0 text-xs font-bold text-primary p-0"/>
+                            <button onclick="updateQuantity({{ item.id }}, 1)" class="w-8 h-8 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors font-bold">+</button>
+                        </div>
+                        
+                        <!-- Subtotal & Actions -->
+                        <div class="flex sm:flex-col items-end justify-between sm:justify-start gap-4 sm:gap-2 w-full sm:w-auto flex-shrink-0 border-t sm:border-t-0 pt-4 sm:pt-0 mt-4 sm:mt-0 border-outline-variant/20">
+                            <span id="subtotal-{{ item.id }}" class="font-display font-bold text-primary text-base">₹{{ "{:,.2f}".format(item.product.price * item.quantity) }}</span>
+                            <form action="{{ url_for('cart_delete', item_id=item.id) }}" method="POST">
+                                <button type="submit" class="text-xs text-error font-semibold hover:underline flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[16px]">delete</span> Remove
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Cart Summary Card -->
+        <div class="lg:col-span-1">
+            <div class="glass-card p-8 rounded-sm bg-white space-y-6 sticky top-24">
+                <h3 class="font-label-md text-primary mb-6 uppercase tracking-[0.15em] text-xs font-bold border-b border-outline-variant/30 pb-4">Order Summary</h3>
+                
+                <div class="space-y-4 text-sm">
+                    <div class="flex justify-between">
+                        <span class="text-on-surface-variant">Subtotal</span>
+                        <span id="cart-subtotal" class="font-semibold text-primary">₹{{ "{:,.2f}".format(subtotal) }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-on-surface-variant">Shipping</span>
+                        <span id="cart-shipping" class="font-semibold text-primary">
+                            {% if shipping == 0 %}Free{% else %}₹{{ "{:,.2f}".format(shipping) }}{% endif %}
+                        </span>
+                    </div>
+                    <div class="border-t border-outline-variant/20 pt-4 flex justify-between text-base font-bold">
+                        <span class="text-primary">Estimated Total</span>
+                        <span id="cart-total" class="text-secondary">₹{{ "{:,.2f}".format(total) }}</span>
+                    </div>
+                </div>
+                
+                <div class="pt-4">
+                    <a href="{{ url_for('checkout') }}" class="w-full py-4 bg-secondary text-white font-label-md rounded-sm hover:bg-secondary-container transition-all flex items-center justify-center gap-3 shadow-lg shadow-secondary/20 uppercase tracking-widest text-xs font-bold">
+                        Proceed to Secure Checkout <span class="material-symbols-outlined text-[18px]">lock</span>
+                    </a>
+                </div>
+                
+                <div class="text-[10px] text-on-surface-variant/60 flex items-center justify-center gap-2 uppercase tracking-wider font-label-md">
+                    <span class="material-symbols-outlined text-[14px]">verified_user</span> Encrypted &amp; Managed by Python Security Stack
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    {% else %}
+    <div class="glass-card p-12 text-center rounded-sm max-w-xl mx-auto">
+        <span class="material-symbols-outlined text-on-surface-variant/30 text-[64px] mb-4">shopping_cart_off</span>
+        <h3 class="font-headline-md text-primary mb-2">Your Cart is Empty</h3>
+        <p class="text-on-surface-variant text-sm mb-8">Add items from the catalog to configure your order.</p>
+        <a href="{{ url_for('catalog') }}" class="bg-secondary text-white px-8 py-4 font-label-md rounded-sm hover:bg-secondary-container transition-all uppercase tracking-wider text-xs font-bold">Browse Catalog</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function updateQuantity(itemId, amount) {
+        const input = document.getElementById(`qty-input-${itemId}`);
+        let currentVal = parseInt(input.value) + amount;
+        setQuantity(itemId, currentVal);
+    }
+
+    function setQuantity(itemId, value) {
+        const input = document.getElementById(`qty-input-${itemId}`);
+        let targetVal = parseInt(value);
+        const max = parseInt(input.max);
+        
+        if (targetVal < 0) targetVal = 0;
+        if (targetVal > max) targetVal = max;
+        input.value = targetVal;
+        
+        // If 0, prompt or update server to remove
+        fetch(`/cart/update/${itemId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `quantity=${targetVal}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                if (targetVal === 0) {
+                    window.location.reload();
+                    return;
+                }
+                
+                // Update local HTML elements
+                document.getElementById(`subtotal-${itemId}`).textContent = data.item_subtotal;
+                document.getElementById('cart-subtotal').textContent = data.subtotal;
+                document.getElementById('cart-shipping').textContent = data.shipping;
+                document.getElementById('cart-total').textContent = data.total;
+                
+                // Update cart count badge
+                const badges = document.querySelectorAll('.relative .bg-secondary');
+                badges.forEach(b => {
+                    b.textContent = data.cart_count;
+                });
+            } else {
+                alert(data.message);
+                // Reset input to current quantity
+                window.location.reload();
+            }
+        })
+        .catch(err => {
+            console.error('Error updating quantity:', err);
+        });
+    }
+</script>
+{% endblock %}

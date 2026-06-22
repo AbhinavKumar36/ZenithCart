@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+
+{% block title %}ZenithCart | Secure Payment Portal{% endblock %}
+
+{% block content %}
+<div class="px-margin-desktop max-w-container-max mx-auto py-12 relative">
+    
+    <!-- Loading Overlay (Security Gateway Simulation) -->
+    <div id="security-gateway-overlay" class="hidden fixed inset-0 bg-primary-container/95 z-[9999] flex flex-col justify-center items-center p-8">
+        <div class="w-full max-w-xl bg-[#0f172a] rounded-lg border border-outline-variant p-8 shadow-2xl relative">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="relative flex h-3 w-3">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
+                </span>
+                <span class="text-white font-label-md tracking-widest text-xs uppercase">Zenith Transaction Gateway v4.0</span>
+            </div>
+            
+            <h2 class="font-display text-white text-2xl font-bold mb-4">Initializing Payment Process...</h2>
+            <div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden mb-6">
+                <div id="progress-bar" class="bg-secondary h-full w-0 transition-all duration-300"></div>
+            </div>
+            
+            <!-- Dynamic logs container -->
+            <div id="gateway-logs" class="bg-black/40 p-4 rounded-sm font-mono text-xs text-tertiary-fixed leading-relaxed h-64 overflow-y-auto custom-scrollbar select-none">
+                <!-- Executed log rows go here -->
+            </div>
+            
+            <p class="text-on-primary-container text-xs mt-6 text-center">Do not close this window or terminate your session.</p>
+        </div>
+    </div>
+    
+    <h1 class="font-display text-[32px] text-primary font-bold mb-10">Secure Checkout</h1>
+    
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter items-start">
+        
+        <!-- Forms and inputs -->
+        <div class="lg:col-span-2 space-y-8">
+            <form id="checkout-form" class="space-y-8">
+                <!-- Shipping Address -->
+                <div class="glass-card p-8 rounded-sm bg-white">
+                    <h3 class="font-headline-md text-lg text-primary font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">local_shipping</span> Delivery Address
+                    </h3>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="group">
+                            <label class="block font-label-md text-xs text-on-surface-variant mb-1.5" for="first_name">First Name</label>
+                            <input required class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" id="first_name" name="first_name" value="{{ current_user.first_name }}" type="text"/>
+                        </div>
+                        <div class="group">
+                            <label class="block font-label-md text-xs text-on-surface-variant mb-1.5" for="last_name">Last Name</label>
+                            <input required class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" id="last_name" name="last_name" value="{{ current_user.last_name }}" type="text"/>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-label-md text-xs text-on-surface-variant mb-1.5" for="address">Street Address</label>
+                        <input required class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" id="address" name="address" placeholder="100 Engineering Way, Suite 400" type="text"/>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            <label class="block font-label-md text-xs text-on-surface-variant mb-1.5" for="city">City</label>
+                            <input required class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" id="city" name="city" placeholder="Palo Alto" type="text"/>
+                        </div>
+                        <div>
+                            <label class="block font-label-md text-xs text-on-surface-variant mb-1.5" for="state">State</label>
+                            <input required class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" id="state" name="state" placeholder="CA" type="text"/>
+                        </div>
+                        <div>
+                            <label class="block font-label-md text-xs text-on-surface-variant mb-1.5" for="postal_code">Postal Code</label>
+                            <input required class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" id="postal_code" name="postal_code" placeholder="94301" type="text"/>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Payment details -->
+                <div class="glass-card p-8 rounded-sm bg-white">
+                    <h3 class="font-headline-md text-lg text-primary font-bold mb-2 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-secondary">credit_card</span> Secure Payment Method
+                    </h3>
+                    <p class="text-xs text-on-surface-variant mb-6 uppercase tracking-wider">PCI-DSS Compliant Encryption Engine</p>
+                    
+                    <div class="mb-4">
+                        <label class="block font-label-md text-xs text-on-surface-variant mb-1.5" for="card_number">Card Number</label>
+                        <div class="relative">
+                            <input required class="w-full pl-4 pr-12 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" id="card_number" name="card_number" placeholder="4111 2222 3333 4444" type="text"/>
+                            <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant/50 text-[20px]">lock</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block font-label-md text-xs text-on-surface-variant mb-1.5" for="card_expiry">Expiry Date</label>
+                            <input required class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" id="card_expiry" name="card_expiry" placeholder="MM/YY" type="text"/>
+                        </div>
+                        <div>
+                            <label class="block font-label-md text-xs text-on-surface-variant mb-1.5" for="card_cvc">CVC Security Code</label>
+                            <input required class="w-full px-4 py-3 bg-white border border-outline-variant rounded-lg font-body-md text-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-all" id="card_cvc" name="card_cvc" placeholder="321" type="text"/>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Cart Contents & Receipt Breakdown -->
+        <div class="lg:col-span-1">
+            <div class="glass-card p-8 rounded-sm bg-white space-y-6 sticky top-24">
+                <h3 class="font-label-md text-primary mb-6 uppercase tracking-[0.15em] text-xs font-bold border-b border-outline-variant/30 pb-4">Order Checkout</h3>
+                
+                <ul class="divide-y divide-outline-variant/20 max-h-48 overflow-y-auto custom-scrollbar pr-2 space-y-2 mb-6">
+                    {% for item in items %}
+                    <li class="py-2 flex items-center justify-between text-xs">
+                        <div class="min-w-0">
+                            <span class="font-semibold text-primary block truncate">{{ item.product.name }}</span>
+                            <span class="text-on-surface-variant font-mono">QTY: {{ item.quantity }}</span>
+                        </div>
+                        <span class="font-semibold text-primary">₹{{ "{:,.2f}".format(item.product.price * item.quantity) }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+                
+                <div class="space-y-4 text-xs border-t border-outline-variant/20 pt-4">
+                    <div class="flex justify-between">
+                        <span class="text-on-surface-variant">Subtotal</span>
+                        <span class="font-semibold text-primary">₹{{ "{:,.2f}".format(subtotal) }}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-on-surface-variant">Shipping</span>
+                        <span class="font-semibold text-primary">
+                            {% if shipping == 0 %}Free{% else %}₹{{ "{:,.2f}".format(shipping) }}{% endif %}
+                        </span>
+                    </div>
+                    <div class="border-t border-outline-variant/20 pt-4 flex justify-between text-sm font-bold">
+                        <span class="text-primary">Grand Total</span>
+                        <span class="text-secondary">₹{{ "{:,.2f}".format(total) }}</span>
+                    </div>
+                </div>
+                
+                <!-- Security Indicator Badge -->
+                <div class="flex items-center gap-2 p-3 bg-tertiary-container/10 border border-on-tertiary-container/10 rounded-sm text-[11px] text-on-tertiary-container font-label-md uppercase tracking-wider justify-center">
+                    <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">security</span>
+                    Secure SSL Gateway Active
+                </div>
+                
+                <div class="pt-4">
+                    <button onclick="submitCheckout()" class="w-full py-4 bg-secondary text-white font-label-md rounded-sm hover:bg-secondary-container transition-all flex items-center justify-center gap-3 shadow-lg shadow-secondary/20 uppercase tracking-widest text-xs font-bold">
+                        Authorize Transaction <span class="material-symbols-outlined text-[18px]">bolt</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function submitCheckout() {
+        const form = document.getElementById('checkout-form');
+        if (!form.reportValidity()) {
+            return;
+        }
+        
+        // Open security overlay
+        const overlay = document.getElementById('security-gateway-overlay');
+        overlay.classList.remove('hidden');
+        
+        const logsContainer = document.getElementById('gateway-logs');
+        const progressBar = document.getElementById('progress-bar');
+        
+        logsContainer.innerHTML = "";
+        progressBar.style.width = "0%";
+        
+        // Compile form parameters
+        const formData = new URLSearchParams();
+        formData.append("card_number", document.getElementById('card_number').value);
+        formData.append("card_expiry", document.getElementById('card_expiry').value);
+        formData.append("card_cvc", document.getElementById('card_cvc').value);
+        
+        // Perform server transaction POST
+        fetch("{{ url_for('checkout_process') }}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            const logs = data.logs || ["[ERROR] Failed to compile secure logs."];
+            
+            // Loop through logs and display them with high-velocity typewriter timings
+            let logIndex = 0;
+            function printNextLog() {
+                if (logIndex < logs.length) {
+                    const line = document.createElement('div');
+                    line.textContent = logs[logIndex];
+                    logsContainer.appendChild(line);
+                    logsContainer.scrollTop = logsContainer.scrollHeight;
+                    
+                    // Increment progress bar
+                    const percent = Math.floor(((logIndex + 1) / logs.length) * 100);
+                    progressBar.style.width = `${percent}%`;
+                    
+                    logIndex++;
+                    setTimeout(printNextLog, 300);
+                } else {
+                    // Logs complete, check status
+                    if (data.status === 'success') {
+                        const successLine = document.createElement('div');
+                        successLine.className = "text-secondary-fixed font-bold mt-2";
+                        successLine.textContent = `[SUCCESS] Redirection established. Invoice code: ${data.order_number}`;
+                        logsContainer.appendChild(successLine);
+                        
+                        setTimeout(() => {
+                            window.location.href = `/orders/${data.order_number}`;
+                        }, 1500);
+                    } else {
+                        const errLine = document.createElement('div');
+                        errLine.className = "text-error font-bold mt-2";
+                        errLine.textContent = `[ERROR] Transaction aborted. Details: ${data.message}`;
+                        logsContainer.appendChild(errLine);
+                        
+                        const closeBtn = document.createElement('button');
+                        closeBtn.className = "mt-4 bg-error text-white px-4 py-2 text-xs font-bold rounded-sm uppercase tracking-wider";
+                        closeBtn.textContent = "Close Gateway Panel";
+                        closeBtn.onclick = () => overlay.classList.add('hidden');
+                        logsContainer.appendChild(closeBtn);
+                    }
+                }
+            }
+            
+            setTimeout(printNextLog, 200);
+        })
+        .catch(err => {
+            console.error('Error submitting transaction:', err);
+            progressBar.style.width = "100%";
+            logsContainer.innerHTML = `<div class="text-error font-bold">[GATEWAY_FAIL] Network protocol failure: ${err.message}</div>`;
+            
+            const closeBtn = document.createElement('button');
+            closeBtn.className = "mt-4 bg-error text-white px-4 py-2 text-xs font-bold rounded-sm uppercase tracking-wider";
+            closeBtn.textContent = "Close Gateway Panel";
+            closeBtn.onclick = () => overlay.classList.add('hidden');
+            logsContainer.appendChild(closeBtn);
+        });
+    }
+</script>
+{% endblock %}

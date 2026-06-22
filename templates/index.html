@@ -1,0 +1,302 @@
+{% extends 'base.html' %}
+
+{% block title %}ZenithCart | Precision Digital Retail{% endblock %}
+
+{% block content %}
+<!-- Refined Hero Section -->
+<section class="relative min-h-[90vh] flex items-center overflow-hidden bg-primary-container hero-gradient">
+    <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#4648d4 0.5px, transparent 0.5px); background-size: 24px 24px;"></div>
+    <div class="relative z-10 w-full px-margin-desktop max-w-container-max mx-auto py-24">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div class="max-w-2xl">
+                <div class="flex items-center gap-3 mb-8">
+                    <span class="h-px w-8 bg-secondary"></span>
+                    <span class="text-secondary-fixed font-label-md tracking-[0.2em] uppercase text-xs">Precision Retail • Engineered Velocity</span>
+                </div>
+                <h1 class="font-display text-white text-[64px] md:text-[88px] leading-[0.95] font-bold mb-10 tracking-tighter">
+                    The Future <br/><span class="text-secondary-fixed-dim">of Retail.</span>
+                </h1>
+                <p class="font-body-lg text-primary-fixed-dim mb-12 max-w-lg opacity-90 leading-relaxed">
+                    Engineered for absolute velocity. Built on a secure Python-driven architecture. Experience the next generation of digital flagship commerce with ZenithCart.
+                </p>
+                <div class="flex flex-wrap gap-6">
+                    <a href="{{ url_for('catalog') }}" class="bg-secondary text-white px-10 py-5 font-label-md rounded-sm hover:bg-secondary-container transition-all flex items-center gap-3 group shadow-lg shadow-secondary/20">
+                        Explore Collections
+                        <span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                    </a>
+                    <a href="#security-details" class="border border-white/20 text-white px-10 py-5 font-label-md rounded-sm hover:bg-white/5 transition-all backdrop-blur-sm flex items-center justify-center">
+                        Technical Specs
+                    </a>
+                </div>
+            </div>
+            <div class="hidden lg:block relative">
+                <!-- High-craft abstract element representing precision -->
+                <div class="relative w-full aspect-square max-w-lg mx-auto">
+                    <div class="absolute inset-0 border-[0.5px] border-white/10 rounded-full animate-[spin_20s_linear_infinite]"></div>
+                    <div class="absolute inset-8 border-[0.5px] border-secondary/30 rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+                    <div class="absolute inset-24 border-[0.5px] border-white/20 rounded-full"></div>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-2/3 h-2/3 bg-gradient-to-br from-secondary/20 to-transparent rounded-2xl rotate-45 border border-white/10 backdrop-blur-xl flex items-center justify-center overflow-hidden">
+                            <div class="w-full h-full opacity-30 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+                        </div>
+                    </div>
+                    <!-- Floating detail tags -->
+                    <div class="absolute top-10 right-0 bg-white/5 backdrop-blur-md border border-white/10 p-4 rounded-sm">
+                        <span class="block text-white font-mono text-[10px] opacity-60">LATENCY</span>
+                        <span class="text-secondary-fixed-dim font-display font-bold">0.02ms</span>
+                    </div>
+                    <div class="absolute bottom-20 left-0 bg-white/5 backdrop-blur-md border border-white/10 p-4 rounded-sm">
+                        <span class="block text-white font-mono text-[10px] opacity-60">SECURITY</span>
+                        <span class="text-secondary-fixed-dim font-display font-bold">AES-256</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Refined Trust Signals -->
+<section class="bg-surface-container-low py-16 border-b border-outline-variant">
+    <div class="px-margin-desktop max-w-container-max mx-auto">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-gutter">
+            <div class="flex items-center gap-4 group cursor-default">
+                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-secondary/5 group-hover:bg-secondary/10 transition-colors">
+                    <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">terminal</span>
+                </div>
+                <div>
+                    <p class="font-label-md text-on-surface uppercase tracking-wider text-[11px]">Python-Powered</p>
+                    <p class="text-[13px] text-on-surface-variant">Core Security Stack</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 group cursor-default">
+                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-secondary/5 group-hover:bg-secondary/10 transition-colors">
+                    <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+                </div>
+                <div>
+                    <p class="font-label-md text-on-surface uppercase tracking-wider text-[11px]">Encrypted</p>
+                    <p class="text-[13px] text-on-surface-variant">End-to-End Safety</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 group cursor-default">
+                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-secondary/5 group-hover:bg-secondary/10 transition-colors">
+                    <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">bolt</span>
+                </div>
+                <div>
+                    <p class="font-label-md text-on-surface uppercase tracking-wider text-[11px]">Velocity v2.4</p>
+                    <p class="text-[13px] text-on-surface-variant">High-Performance Engine</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 group cursor-default">
+                <div class="w-12 h-12 flex items-center justify-center rounded-full bg-secondary/5 group-hover:bg-secondary/10 transition-colors">
+                    <span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">lock</span>
+                </div>
+                <div>
+                    <p class="font-label-md text-on-surface uppercase tracking-wider text-[11px]">PCI-DSS</p>
+                    <p class="text-[13px] text-on-surface-variant">Banking Compliance</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Refined Category Grid -->
+<section class="py-32 px-margin-desktop max-w-container-max mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+        <div class="max-w-xl">
+            <span class="text-secondary font-label-md tracking-widest uppercase text-xs mb-4 block">Curated Precision</span>
+            <h2 class="font-display text-[40px] leading-tight text-primary font-bold">Featured Collections</h2>
+            <p class="font-body-md text-on-surface-variant mt-4">Intentional design meets technical excellence in our seasonal flagship categories.</p>
+        </div>
+        <a class="text-secondary font-label-md flex items-center gap-2 hover:gap-3 transition-all group pb-1 border-b border-transparent hover:border-secondary" href="{{ url_for('catalog') }}">
+            VIEW ALL ARCHIVES <span class="material-symbols-outlined text-[18px]">north_east</span>
+        </a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+        <!-- Large Hero Category Card -->
+        <div onclick="window.location.href='{{ url_for('catalog', category='technical_apparel') }}'" class="md:col-span-7 lg:col-span-8 group relative overflow-hidden bg-surface-container rounded-sm aspect-[4/3] md:aspect-auto md:h-[650px] cursor-pointer">
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB2N-vUmDMvbxNys4WzmF2R-OT-T1aoQ5qoVeIMvK4YGC67XHx_iiF_nCbDjdDN9NGptMZpQ1D2RmCCwfMlp_COIz2csop-6icaTlG1d-GMpUKKacH94CiOmobOSLJcyHJFXCATnX8SYvBLxycwPrczr9wfaWfaC55oN7wJIEYTHvy446ljcyyYCrgPWvwiidsKVv60IlI-tENdyyy3XwV_u5V7PpIMZX-c8ldnTgTTKfcOmF2iab8Y3uYjaSWDUTF3G0zXxqactuU')"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/20 to-transparent flex flex-col justify-end p-12">
+                <span class="text-white/60 font-mono text-xs mb-4 tracking-tighter">CATEGORY_01 / APPAREL</span>
+                <h3 class="font-display text-[44px] text-white font-bold mb-4">Technical Apparel</h3>
+                <p class="text-white/70 font-body-md mb-8 max-w-md">Performance-engineered fabrics optimized for urban mobility and environmental resilience.</p>
+                <button class="w-fit flex items-center gap-3 text-white font-label-md group/btn">
+                    SHOP COLLECTION <span class="w-8 h-px bg-white group-hover/btn:w-12 transition-all"></span>
+                </button>
+            </div>
+        </div>
+        <!-- Stacked Category Cards -->
+        <div class="md:col-span-5 lg:col-span-4 flex flex-col gap-8">
+            <div onclick="window.location.href='{{ url_for('catalog', category='home') }}'" class="flex-1 group relative overflow-hidden bg-surface-container rounded-sm min-h-[300px] cursor-pointer">
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDPt67A7iBAGYzk5CaHUyxiXxdqF4kH4GFeWkUjdY8WR1JY9ArI6rywUvZ3urJKVRlFEJNtMm7At-C4OmNQFbz7Slk5NcYmDtGwY7zB0NZQD7Nc9VqMRcLNKW_gpV_4dA-P2e73Itowax-nw7gKffGBeFTgtzKY5oie0MHN3pqIWgeMPqwfSv8ysuBIENjzLEBCU_bbONIeiaCZ6s_qCo4z92vEyvquqXFtD9CdX1G0RnbSLtzxAJmFeRPCeV-hHUFdnlXjcFR-5bc')"></div>
+                <div class="absolute inset-0 bg-primary/40 group-hover:bg-primary/30 transition-colors"></div>
+                <div class="absolute inset-0 flex flex-col justify-end p-8">
+                    <span class="text-white/60 font-mono text-[10px] mb-2">CATEGORY_02</span>
+                    <h3 class="font-headline-lg text-white font-bold mb-1">Smart Living</h3>
+                    <p class="text-white/60 text-xs mb-4">HOME UTILITIES</p>
+                    <span class="material-symbols-outlined text-white/50 group-hover:text-white transition-colors">east</span>
+                </div>
+            </div>
+            <div onclick="window.location.href='{{ url_for('catalog', category='electronics') }}'" class="flex-1 group relative overflow-hidden bg-surface-container rounded-sm min-h-[300px] cursor-pointer">
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB3i6wN6dVBC1DKLNrliO78NP3Bedvz3F0Ntuxj5aGWIQmZV2oor9ubQfWlxq5zN5ZbU15fHv9c-xSCQUMoJOVjFnlg7rq85y1V3q3ItOLHoQMjhzFH99mut-9OlyF7tU2b0gqMqhHh6YXOnwLxG3UxMc_0qlTlu3uLl0yoRIrihlwSYKNK66wY8nhhH5Ilf2T8IGhkSZrCGelWcelOETJHS-hIN83ihwiaWvkYYj2NeZ4OwDZ0ELBGqYwX7iB8VV464epLsQxaf30')"></div>
+                <div class="absolute inset-0 bg-primary/40 group-hover:bg-primary/30 transition-colors"></div>
+                <div class="absolute inset-0 flex flex-col justify-end p-8">
+                    <span class="text-white/60 font-mono text-[10px] mb-2">CATEGORY_03</span>
+                    <h3 class="font-headline-lg text-white font-bold mb-1">Modern Audio & Gear</h3>
+                    <p class="text-white/60 text-xs mb-4">ELECTRONICS ARCHIVE</p>
+                    <span class="material-symbols-outlined text-white/50 group-hover:text-white transition-colors">east</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trending Now -->
+<section class="py-32 bg-white">
+    <div class="px-margin-desktop max-w-container-max mx-auto">
+        <div class="text-center mb-20">
+            <span class="text-secondary font-label-md tracking-widest uppercase text-xs">Market Leaders</span>
+            <h2 class="font-display text-[40px] text-primary font-bold mt-4 mb-4">Trending Now</h2>
+            <p class="text-on-surface-variant font-body-md max-w-md mx-auto">The most requested hardware from our technical community this month.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {% for product in trending_products %}
+            <div class="group flex flex-col cursor-pointer" onclick="window.location.href='{{ url_for('product_details', product_id=product.id) }}'">
+                <div class="relative aspect-square overflow-hidden bg-surface-container-low mb-6 rounded-sm">
+                    <img alt="{{ product.name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="{{ product.image_url }}"/>
+                    {% if product.stock <= 5 %}
+                        <div class="absolute top-4 left-4 bg-error text-white text-[10px] font-bold px-2 py-1 rounded-sm uppercase tracking-wider">Low Stock</div>
+                    {% endif %}
+                    <button onclick="event.stopPropagation(); addToCart({{ product.id }});" class="absolute bottom-4 right-4 w-12 h-12 bg-white text-primary flex items-center justify-center rounded-sm opacity-0 group-hover:opacity-100 transition-opacity translate-y-4 group-hover:translate-y-0 duration-300 shadow-xl">
+                        <span class="material-symbols-outlined">add_shopping_cart</span>
+                    </button>
+                </div>
+                <div class="flex flex-col flex-1">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[11px] text-on-surface-variant font-mono uppercase tracking-tighter">{{ product.category | replace('_', ' ') }}</span>
+                        <span class="text-secondary font-bold font-display text-lg">₹{{ "{:,.2f}".format(product.price) }}</span>
+                    </div>
+                    <h4 class="font-headline-md text-primary text-xl group-hover:text-secondary transition-colors truncate">{{ product.name }}</h4>
+                    <p class="text-on-surface-variant text-sm mt-1 line-clamp-1">{{ product.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Refined Technical Section (Security/Python) -->
+<section id="security-details" class="py-32 bg-surface-container-lowest overflow-hidden">
+    <div class="px-margin-desktop max-w-container-max mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+            <div class="order-2 lg:order-1 relative">
+                <div class="glass-card p-2 rounded-lg border border-outline-variant relative z-10 shadow-2xl">
+                    <div class="bg-primary-container p-8 rounded-sm">
+                        <div class="flex gap-2 mb-6">
+                            <div class="w-2.5 h-2.5 rounded-full bg-error opacity-50"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-secondary opacity-50"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed opacity-50"></div>
+                        </div>
+                        <pre class="text-tertiary-fixed text-[13px] font-mono leading-relaxed overflow-x-hidden"><span class="text-secondary-fixed-dim">def</span> <span class="text-tertiary-fixed-dim">secure_payment_process</span>(transaction_id):
+    <span class="text-on-primary-container"># Initialize Zenith Security Layer v4.0</span>
+    auth = verify_encryption_key(transaction_id)
+    
+    <span class="text-secondary-fixed-dim">if</span> auth.is_validated():
+        velocity_engine.execute(
+            protocol=<span class="text-tertiary-fixed">"AES-256-GCM"</span>,
+            gateway=<span class="text-tertiary-fixed">"ZenithCart-Secure"</span>,
+            sharding=<span class="text-secondary-fixed-dim">True</span>
+        )
+        <span class="text-secondary-fixed-dim">return</span> Status.SUCCESS
+    
+    <span class="text-secondary-fixed-dim">else</span>:
+        <span class="text-error">raise</span> SecurityException(<span class="text-tertiary-fixed">"UNAUTHORIZED_ACCESS"</span>)
+                        </pre>
+                    </div>
+                </div>
+                <!-- Technical depth decoration -->
+                <div class="absolute -top-12 -left-12 w-48 h-48 bg-secondary/5 blur-[100px] rounded-full"></div>
+                <div class="absolute -bottom-12 -right-12 w-64 h-64 bg-primary/5 blur-[120px] rounded-full"></div>
+            </div>
+            <div class="order-1 lg:order-2">
+                <span class="inline-flex items-center gap-2 px-3 py-1 bg-tertiary-container text-tertiary-fixed font-label-md rounded-sm mb-8 text-[11px] uppercase tracking-widest">
+                    <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">security</span>
+                    Bank-Grade Architecture
+                </span>
+                <h2 class="font-display text-[44px] text-primary font-bold mb-8 leading-tight">Engineered for <br/>Absolute Trust.</h2>
+                <p class="font-body-lg text-on-surface-variant mb-10 leading-relaxed">
+                    Every single transaction at ZenithCart is managed by our proprietary Python-based payment gateway. Featuring real-time fraud detection and end-to-end sharded encryption, we ensure your data is as secure as the high-performance code that powers it.
+                </p>
+                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6 mb-12">
+                    <li class="flex items-start gap-4">
+                        <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                        <span class="font-body-md text-on-surface font-medium">0.02s Latency Process</span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                        <span class="font-body-md text-on-surface font-medium">Distributed Ledger Protocols</span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                        <span class="font-body-md text-on-surface font-medium">Biometric Checkout Auth</span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                        <span class="font-body-md text-on-surface font-medium">Python Secure Shell 4.0</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Refined Newsletter / CTA -->
+<section class="py-32 bg-primary text-white text-center relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+    <div class="relative z-10 px-margin-desktop max-w-2xl mx-auto">
+        <h2 class="font-display text-[48px] md:text-[56px] font-bold mb-8 tracking-tight">Stay ahead of the curve.</h2>
+        <p class="font-body-lg text-primary-fixed-dim/80 mb-12">Join our engineering list to receive early access to technical collections, hardware deep-dives, and limited release updates.</p>
+        <form class="flex flex-col sm:flex-row gap-0 rounded-sm overflow-hidden border border-white/20 shadow-2xl" onsubmit="event.preventDefault(); alert('Subscribed successfully!');">
+            <input class="flex-1 px-8 py-5 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:bg-white/10 transition-colors font-body-md border-none" placeholder="Enter your engineering email..." type="email" required/>
+            <button class="bg-secondary px-10 py-5 font-label-md hover:bg-secondary-container transition-all whitespace-nowrap" type="submit">
+                SUBSCRIBE
+            </button>
+        </form>
+        <div class="mt-8 flex items-center justify-center gap-4 text-[10px] text-white/40 uppercase tracking-[0.2em] font-label-md">
+            <span class="h-px w-8 bg-white/20"></span>
+            NO SPAM. ONLY HIGH-PERFORMANCE UPDATES.
+            <span class="h-px w-8 bg-white/20"></span>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function addToCart(productId) {
+        fetch(`/cart/add/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+        .then(response => {
+            if (response.status === 401 || response.redirected) {
+                window.location.href = "{{ url_for('login_gate') }}";
+                return;
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data && data.status === 'success') {
+                alert(data.message);
+                window.location.reload();
+            } else if (data && data.status === 'error') {
+                alert(data.message);
+            }
+        })
+        .catch(err => {
+            console.error('Error adding to cart:', err);
+        });
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}ZenithCart | Saved Wishlist{% endblock %}
+
+{% block content %}
+<div class="px-margin-desktop max-w-container-max mx-auto py-12">
+    <h1 class="font-display text-[32px] text-primary font-bold mb-10">My Wishlist</h1>
+    
+    {% if items %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for item in items %}
+        <div class="glass-card p-6 rounded-sm bg-white flex flex-col relative">
+            <!-- Remove Button -->
+            <form action="{{ url_for('wishlist_remove', item_id=item.id) }}" method="POST" class="absolute top-6 right-6">
+                <button type="submit" class="w-8 h-8 rounded-full bg-surface-container-low flex items-center justify-center text-on-surface-variant hover:text-error transition-colors shadow-sm" title="Remove from Wishlist">
+                    <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+            </form>
+            
+            <!-- Thumbnail Image -->
+            <div class="relative aspect-square overflow-hidden bg-surface-container-low mb-6 rounded-sm cursor-pointer" onclick="window.location.href='{{ url_for('product_details', product_id=item.product.id) }}'">
+                <img alt="{{ item.product.name }}" class="w-full h-full object-cover" src="{{ item.product.image_url }}"/>
+            </div>
+            
+            <!-- Details -->
+            <div class="flex flex-col flex-1">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-[10px] text-on-surface-variant font-mono uppercase tracking-tighter">{{ item.product.sku }}</span>
+                    <span class="text-secondary font-bold font-display text-base">₹{{ "{:,.2f}".format(item.product.price) }}</span>
+                </div>
+                
+                <h3 class="font-headline-md text-base text-primary truncate hover:text-secondary transition-colors mb-4">
+                    <a href="{{ url_for('product_details', product_id=item.product.id) }}">{{ item.product.name }}</a>
+                </h3>
+                
+                <!-- Move to Cart Action -->
+                <div class="mt-auto pt-4 border-t border-outline-variant/20 flex gap-2">
+                    {% if item.product.stock > 0 %}
+                    <form action="{{ url_for('wishlist_move_to_cart', item_id=item.id) }}" method="POST" class="w-full">
+                        <button type="submit" class="w-full py-3 bg-secondary text-white font-label-md rounded-sm hover:bg-secondary-container transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs font-bold shadow-sm">
+                            Move to Cart <span class="material-symbols-outlined text-[16px]">shopping_cart</span>
+                        </button>
+                    </form>
+                    {% else %}
+                    <button disabled class="w-full py-3 bg-on-surface-variant/10 text-on-surface-variant/40 font-label-md rounded-sm cursor-not-allowed uppercase tracking-widest text-xs font-bold">
+                        Out of Stock
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="glass-card p-12 text-center rounded-sm max-w-xl mx-auto">
+        <span class="material-symbols-outlined text-on-surface-variant/30 text-[64px] mb-4">favorite</span>
+        <h3 class="font-headline-md text-primary mb-2">Your Wishlist is Empty</h3>
+        <p class="text-on-surface-variant text-sm mb-8">Save items here that you are tracking for future purchases.</p>
+        <a href="{{ url_for('catalog') }}" class="bg-secondary text-white px-8 py-4 font-label-md rounded-sm hover:bg-secondary-container transition-all uppercase tracking-wider text-xs font-bold">Explore Collections</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

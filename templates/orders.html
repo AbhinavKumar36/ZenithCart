@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}ZenithCart | Order History{% endblock %}
+
+{% block content %}
+<div class="px-margin-desktop max-w-container-max mx-auto py-12">
+    <h1 class="font-display text-[32px] text-primary font-bold mb-10">Order Archive</h1>
+    
+    {% if orders %}
+    <div class="glass-card rounded-sm bg-white overflow-hidden">
+        <table class="w-full text-sm border-collapse text-left">
+            <thead>
+                <tr class="bg-surface-container-low border-b border-outline-variant/30 text-xs font-label-md text-on-surface-variant uppercase tracking-wider">
+                    <th class="p-6">Order Number</th>
+                    <th class="p-6">Date</th>
+                    <th class="p-6">Grand Total</th>
+                    <th class="p-6">System Status</th>
+                    <th class="p-6 text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant/20">
+                {% for order in orders %}
+                <tr class="hover:bg-surface-container-low/30 transition-colors">
+                    <td class="p-6 font-mono font-bold text-primary">{{ order.order_number }}</td>
+                    <td class="p-6 text-on-surface-variant">{{ order.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                    <td class="p-6 font-semibold text-primary">₹{{ "{:,.2f}".format(order.total_price) }}</td>
+                    <td class="p-6">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold
+                            {% if order.status == 'Processing' %}
+                                bg-secondary/10 text-secondary
+                            {% elif order.status == 'Shipped' %}
+                                bg-tertiary-fixed-dim/20 text-on-tertiary-container
+                            {% elif order.status == 'Delivered' %}
+                                bg-tertiary-fixed/30 text-on-tertiary-fixed-variant
+                            {% else %}
+                                bg-error-container text-on-error-container
+                            {% endif %}">
+                            {{ order.status }}
+                        </span>
+                    </td>
+                    <td class="p-6 text-right">
+                        <a href="{{ url_for('order_details', order_number=order.order_number) }}" class="text-xs text-secondary font-bold hover:underline flex items-center justify-end gap-1">
+                            View Invoice <span class="material-symbols-outlined text-[16px]">receipt</span>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="glass-card p-12 text-center rounded-sm max-w-xl mx-auto">
+        <span class="material-symbols-outlined text-on-surface-variant/30 text-[64px] mb-4">history</span>
+        <h3 class="font-headline-md text-primary mb-2">No Past Orders Found</h3>
+        <p class="text-on-surface-variant text-sm mb-8">You have not completed any transactions yet.</p>
+        <a href="{{ url_for('catalog') }}" class="bg-secondary text-white px-8 py-4 font-label-md rounded-sm hover:bg-secondary-container transition-all uppercase tracking-wider text-xs font-bold">Shop Technical Apparel</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
