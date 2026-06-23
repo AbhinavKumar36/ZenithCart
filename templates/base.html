@@ -4,6 +4,7 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>{% block title %}ZenithCart | Precision Digital Retail{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
     <script>
         // Initialize theme before parsing page to prevent layout flash
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -226,10 +227,10 @@
     
     <!-- Header -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-surface border-b border-outline-variant transition-all duration-300" id="main-header">
-        <nav class="flex justify-between items-center w-full px-margin-desktop max-w-container-max mx-auto h-20">
+        <nav class="flex justify-between items-center w-full px-margin-desktop max-w-container-max mx-auto h-28">
             <div class="flex items-center gap-base">
                 <a href="{{ url_for('index') }}">
-                    <img alt="ZenithCart Logo" class="h-9 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLufguzk0Yu1Jfoq3HXqW4-Bs-hf1PiBpR9IzI3f7hQaLDtYvheCbD9-jzKmQErjYLKHlSL3ExCQgBZafP-3k_18nsogMVB_ZGsH-xb-U6txAB-sLoeZg1xjKMuCKkOywmS-BB4pGApY40cgVEZJhzO8ldEKxLO9iHOzfNc7c90VbO6B3FusVQXIE7kBh7dpZ-WqNA003tmDkPZVHWibUGqMhiK9BYWoZ1GQwxDqXshS9fvVnYJ4RY571A"/>
+                    <img alt="ZenithCart Logo" class="h-20 md:h-24 w-auto transition-all duration-300" src="https://lh3.googleusercontent.com/aida/AP1WRLufguzk0Yu1Jfoq3HXqW4-Bs-hf1PiBpR9IzI3f7hQaLDtYvheCbD9-jzKmQErjYLKHlSL3ExCQgBZafP-3k_18nsogMVB_ZGsH-xb-U6txAB-sLoeZg1xjKMuCKkOywmS-BB4pGApY40cgVEZJhzO8ldEKxLO9iHOzfNc7c90VbO6B3FusVQXIE7kBh7dpZ-WqNA003tmDkPZVHWibUGqMhiK9BYWoZ1GQwxDqXshS9fvVnYJ4RY571A"/>
                 </a>
             </div>
             
@@ -312,7 +313,7 @@
         <div class="w-full py-16 px-margin-desktop max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-3 gap-gutter">
             <div class="space-y-8">
                 <div class="flex items-center gap-base">
-                    <img alt="ZenithCart Logo" class="h-7 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLufguzk0Yu1Jfoq3HXqW4-Bs-hf1PiBpR9IzI3f7hQaLDtYvheCbD9-jzKmQErjYLKHlSL3ExCQgBZafP-3k_18nsogMVB_ZGsH-xb-U6txAB-sLoeZg1xjKMuCKkOywmS-BB4pGApY40cgVEZJhzO8ldEKxLO9iHOzfNc7c90VbO6B3FusVQXIE7kBh7dpZ-WqNA003tmDkPZVHWibUGqMhiK9BYWoZ1GQwxDqXshS9fvVnYJ4RY571A"/>
+                    <img alt="ZenithCart Logo" class="h-16 md:h-20 w-auto" src="https://lh3.googleusercontent.com/aida/AP1WRLufguzk0Yu1Jfoq3HXqW4-Bs-hf1PiBpR9IzI3f7hQaLDtYvheCbD9-jzKmQErjYLKHlSL3ExCQgBZafP-3k_18nsogMVB_ZGsH-xb-U6txAB-sLoeZg1xjKMuCKkOywmS-BB4pGApY40cgVEZJhzO8ldEKxLO9iHOzfNc7c90VbO6B3FusVQXIE7kBh7dpZ-WqNA003tmDkPZVHWibUGqMhiK9BYWoZ1GQwxDqXshS9fvVnYJ4RY571A"/>
                 </div>
                 <p class="font-body-md text-on-surface-variant max-w-xs leading-relaxed">
                     Building the future of digital commerce through technical precision, user-centric design, and high-performance engineering.
@@ -392,13 +393,13 @@
             if (window.scrollY > 50) {
                 header.classList.add('shadow-lg', 'header-scrolled', 'py-1');
                 header.classList.remove('bg-surface');
-                header.querySelector('nav').classList.remove('h-20');
-                header.querySelector('nav').classList.add('h-16');
+                header.querySelector('nav').classList.remove('h-28');
+                header.querySelector('nav').classList.add('h-20');
             } else {
                 header.classList.remove('shadow-lg', 'header-scrolled', 'py-1');
                 header.classList.add('bg-surface');
-                header.querySelector('nav').classList.add('h-20');
-                header.querySelector('nav').classList.remove('h-16');
+                header.querySelector('nav').classList.add('h-28');
+                header.querySelector('nav').classList.remove('h-20');
             }
         });
 

@@ -4,6 +4,7 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>ZenithCart | Secure Gateway</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
     <script>
         // Initialize theme before parsing page to prevent layout flash
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -202,6 +203,9 @@
             
             <div class="relative z-10 p-margin-desktop max-w-xl">
                 <div class="mb-12">
+                    <!-- ZenithCart Logo -->
+                    <img src="https://lh3.googleusercontent.com/aida/AP1WRLufguzk0Yu1Jfoq3HXqW4-Bs-hf1PiBpR9IzI3f7hQaLDtYvheCbD9-jzKmQErjYLKHlSL3ExCQgBZafP-3k_18nsogMVB_ZGsH-xb-U6txAB-sLoeZg1xjKMuCKkOywmS-BB4pGApY40cgVEZJhzO8ldEKxLO9iHOzfNc7c90VbO6B3FusVQXIE7kBh7dpZ-WqNA003tmDkPZVHWibUGqMhiK9BYWoZ1GQwxDqXshS9fvVnYJ4RY571A" alt="ZenithCart Logo" class="h-10 md:h-12 lg:h-14 w-auto mb-10 object-contain brightness-0 invert drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]" />
+
                     <span class="inline-flex items-center px-3 py-1 bg-secondary/20 border border-secondary/30 rounded-full text-secondary-fixed font-label-md text-label-md mb-6">
                         <span class="material-symbols-outlined mr-2 text-[18px]">verified_user</span>
                         SYSTEM PROTOCOL V.2.4.0

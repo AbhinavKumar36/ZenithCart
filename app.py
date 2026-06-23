@@ -24,17 +24,20 @@ def create_app():
         current_user = None
         cart_count = 0
         wishlist_count = 0
+        wishlist_product_ids = []
         
         if 'user_id' in session:
             current_user = db.session.get(User, session['user_id'])
             if current_user:
                 cart_count = sum(item.quantity for item in current_user.cart_items)
                 wishlist_count = len(current_user.wishlist_items)
+                wishlist_product_ids = [item.product_id for item in current_user.wishlist_items]
                 
         return dict(
             current_user=current_user,
             cart_count=cart_count,
-            wishlist_count=wishlist_count
+            wishlist_count=wishlist_count,
+            wishlist_product_ids=wishlist_product_ids
         )
 
     # Decorator to secure endpoints
@@ -362,6 +365,7 @@ def create_app():
         order_number = f"ZNT-{random.randint(10000, 99999)}"
         order = Order(order_number=order_number, user_id=user.id, total_price=total)
         db.session.add(order)
+        db.session.flush() # Flush to populate order.id
         
         logs.append(f"[DB] COMPILING RECEIPT INVOICE {order_number}...")
         
