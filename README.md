@@ -89,4 +89,4 @@ ZenithCart relies on the following core security principles:
 *   Guarded endpoints with the `@login_required` decorator.
 
 ---
-*Engineered by the ZenithCart Development Team.*
+*Engineered by the Abhinav Kumar.*
